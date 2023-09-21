@@ -35,10 +35,6 @@
         info = {"name" => name, "path" => path}
         packages.push info
     end
-
-    # Add the google(-beta) package itself
-    root_package = {"name" => "google#{version_string}", "path" => "./google#{version_string}"}
-    packages.push root_package
 -%>
 
 <%
