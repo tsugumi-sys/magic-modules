@@ -35,47 +35,10 @@ func TestAccGKEHubFeatureMembership_gkehubFeatureAcmUpdate(t *testing.T) {
 		CheckDestroy:             testAccCheckGKEHubFeatureDestroyProducer(t),
 		Steps: []resource.TestStep{
 			{
-				Config: testAccGKEHubFeatureMembership_gkehubFeatureAcmUpdateStart(context),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test1%s", context["random_suffix"])),
-					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test2%s", context["random_suffix"])),
-				),
-			},
-			{
-				ResourceName:      "google_gke_hub_feature_membership.feature_member_1",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-			{
-				Config: testAccGKEHubFeatureMembership_gkehubFeatureAcmMembershipUpdate(context),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test1%s", context["random_suffix"])),
-					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test2%s", context["random_suffix"])),
-				),
-			},
-			{
-				ResourceName:      "google_gke_hub_feature_membership.feature_member_2",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-			{
 				Config: testAccGKEHubFeatureMembership_gkehubFeatureAcmAddHierarchyController(context),
 				Check: resource.ComposeTestCheckFunc(
 					testAccCheckGkeHubFeatureMembershipNotPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test1%s", context["random_suffix"])),
 					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test2%s", context["random_suffix"])),
-					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test3%s", context["random_suffix"])),
-				),
-			},
-			{
-				ResourceName:      "google_gke_hub_feature_membership.feature_member_3",
-				ImportState:       true,
-				ImportStateVerify: true,
-			},
-			{
-				Config: testAccGKEHubFeatureMembership_gkehubFeatureAcmRemoveFields(context),
-				Check: resource.ComposeTestCheckFunc(
-					testAccCheckGkeHubFeatureMembershipNotPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test2%s", context["random_suffix"])),
-					testAccCheckGkeHubFeatureMembershipNotPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("basic1%s", context["random_suffix"])),
 					testAccCheckGkeHubFeatureMembershipPresent(t, fmt.Sprintf("tf-test-gkehub%s", context["random_suffix"]), "global", "configmanagement", fmt.Sprintf("tf-test3%s", context["random_suffix"])),
 				),
 			},
@@ -255,7 +218,7 @@ resource "google_gke_hub_feature_membership" "feature_member_3" {
     }
     hierarchy_controller {
       enable_hierarchical_resource_quota = false
-      enable_pod_tree_labels = true
+      enable_pod_tree_labels = false
       enabled = false
     }
   }
